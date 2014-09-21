@@ -1,0 +1,22 @@
+{
+  "name": "upnp-client",
+  "version": "0.0.1",
+  "description": "UPnP client",
+  "keywords": [
+    "upnp"
+  ],
+  "homepage": "https://github.com/ccantill/upnp-client",
+  "bugs": {
+    "url": "https://github.com/ccantill/upnp-client/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Christoph Cantillon"
+  },
+  "dependencies": {
+    "async": "^0.9.0",
+    "request": "^2.42.0",
+    "xml2js": "^0.4.4"
+  },
+  "main": "device"
+}
