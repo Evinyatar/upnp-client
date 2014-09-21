@@ -48,7 +48,6 @@ function sendCommand(service, command, outParams, parameters, cb) {
                         cb(err);
                     } else {
                         var fault = upnpReply['s:Envelope']['s:Body'][0]['s:Fault'][0];
-                        console.log(fault.detail[0].UPnPError[0]);
                         var error = {
                             error: 'UPnP Error',
                             code: _(fault.detail[0].UPnPError[0].errorCode[0]),
@@ -68,7 +67,6 @@ function sendCommand(service, command, outParams, parameters, cb) {
                     xml2js(body, function(err, bodyObject) {
                         if(!err) {
                             var response = bodyObject['s:Envelope']['s:Body'][0]['u:' + command + 'Response'][0];
-                            console.log(JSON.stringify(bodyObject));
                             var results = {};
                             outParams.forEach(function(e) {
                                 results[e] = response[e][0];

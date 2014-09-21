@@ -69,8 +69,8 @@ function Device(options, callback) {
         });
     }
     
-    if(options.descriptorXml) {
-        parseDescriptor(options.descriptorXml);
+    if(options.descriptorXml || options.LOCATION) {
+        parseDescriptor(options.descriptorXml || options.LOCATION);
     } else {
         var req = {
             uri: options.descriptorUrl,
