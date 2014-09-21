@@ -12,7 +12,7 @@ function _(t) {
 };
 
 function Device(options, callback) {
-    function parseDescriptor(descriptor) {
+    function parseDescriptor(descriptorUrl, descriptor) {
         xml2js(descriptor, function(err, root) {
             if(err) {
                 cb(err);
@@ -27,7 +27,8 @@ function Device(options, callback) {
                 manufacturer: _(descriptor.manufacturer),
                 modelName: _(descriptor.modelName),
                 modelNumber: _(descriptor.modelNumber),
-                UDN: _(descriptor.UDN)
+                UDN: _(descriptor.UDN),
+                descriptorUrl: descriptorUrl
             };
             
             var iconList = descriptor.iconList[0].icon;
@@ -37,7 +38,7 @@ function Device(options, callback) {
                     width: _(e.width),
                     height: _(e.height),
                     depth: _(e.depth),
-                    url: _(e.url)
+                    url: url.resolve(descriptorUrl, _(e.url))
                 };
             });
 
@@ -46,9 +47,9 @@ function Device(options, callback) {
             async.map(serviceList, function(s, cb) { 
                 s.descriptorURL = options.descriptorUrl;
                 service({
-                    SCPDURL: url.resolve(options.descriptorUrl, _(s.SCPDURL)),
-                    controlURL: url.resolve(options.descriptorUrl, _(s.controlURL)),
-                    eventSubURL: url.resolve(options.descriptorUrl, _(s.eventSubURL)),
+                    SCPDURL: url.resolve(descriptorUrl, _(s.SCPDURL)),
+                    controlURL: url.resolve(descriptorUrl, _(s.controlURL)),
+                    eventSubURL: url.resolve(descriptorUrl, _(s.eventSubURL)),
                     serviceId: _(s.serviceId),
                     serviceType: _(s.serviceType)
                 }, cb);
@@ -69,11 +70,11 @@ function Device(options, callback) {
         });
     }
     
-    if(options.descriptorXml || options.LOCATION) {
-        parseDescriptor(options.descriptorXml || options.LOCATION);
+    if(options.descriptorXml) {
+        parseDescriptor(options.descriptorUrl, options.descriptorXml);
     } else {
         var req = {
-            uri: options.descriptorUrl,
+            uri: options.descriptorUrl || options.LOCATION,
             method: 'GET',
             'USER-AGENT': UA
         };
@@ -83,7 +84,7 @@ function Device(options, callback) {
                 callback(err);
                 return;
             }
-            parseDescriptor(body);
+            parseDescriptor(options.descriptorUrl || options.LOCATION, body);
         });
     }
 }
