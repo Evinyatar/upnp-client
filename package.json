@@ -1,7 +1,7 @@
 {
-  "name": "upnp-client",
+  "name": "upnp-client-minimal",
   "version": "0.0.1",
-  "description": "UPnP client",
+  "description": "Minimal UPnP client",
   "keywords": [
     "upnp"
   ],
