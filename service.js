@@ -9,7 +9,7 @@ var UA = "UPnP/1.0, UPNPClient/0.0.1";
 
 function _(t) { 
     if(t instanceof Array) return t[0];
-    return t;
+    return t._ || t;
 };
 
 function sendCommand(service, command, outParams, parameters, cb) {
